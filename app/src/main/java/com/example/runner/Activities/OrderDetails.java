@@ -1,5 +1,7 @@
 package com.example.runner.Activities;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,10 +35,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderDetails extends AppCompatActivity  {
+public class OrderDetails extends AppCompatActivity {
     ActivityOrderDetailsBinding binding;
+    ProgressDialog progressDialog;
 
-    String selectedid,billid;
+    String selectedid, billid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,22 +48,26 @@ public class OrderDetails extends AppCompatActivity  {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_order_details);
         binding.recyvmyorderdetails.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         String orderid = getIntent().getStringExtra("id");
-        billid= getIntent().getStringExtra("billid");
+        billid = getIntent().getStringExtra("billid");
         doOrderdetails(orderid);
+        progressDialog=new ProgressDialog(OrderDetails.this);
+        progressDialog.setMessage("Updating...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(true);
         binding.radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                switch(checkedId){
+                switch (checkedId) {
                     case R.id.rdbtn1:
                         // TODO Something
                         binding.edcomments.setVisibility(View.GONE);
-                        Log.d("onClick", "onClick: "+billid);
+                        Log.d("onClick", "onClick: " + billid);
 
-                   domovetocustomer(billid);
 
                         break;
                     case R.id.rdbtn2:
                         binding.edcomments.setVisibility(View.VISIBLE);
+
                         // TODO Something
                         break;
                     case R.id.rdbtn3:
@@ -70,17 +78,37 @@ public class OrderDetails extends AppCompatActivity  {
                 }
             }
         });
+        binding.btnUpdatestatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.edcomments.setError(null);
 
+                if (binding.rdbtn1.isChecked()) {
+                    domovetocustomer(billid);
+                } else if (binding.rdbtn2.isChecked()) {
+                    if (binding.edcomments.getText().toString().equals("")) {
+                        binding.edcomments.setError("Please enter reason here");
+                    } else {
+                        doupdateundelivered(billid, binding.edcomments.getText().toString());
+                    }
+
+                }
+                if (binding.rdbtn3.isChecked()) {
+                    dooutletreturn(billid);
+
+                }
+            }
+        });
 
 
         Log.e("onCreate", "onCreate:" + orderid);
         Log.e("onCreate", "onCreate:" + getIntent().getExtras());
 
 
-
     }
 
     private void domovetocustomer(String billid) {
+        progressDialog.show();
         JsonObject student1 = new JsonObject();
         student1.addProperty("bill_id", Integer.parseInt(billid));
         String mAccesstoken = LocalPreferences.retrieveStringPreferences(getApplicationContext(), "Accesstoken");
@@ -89,11 +117,14 @@ public class OrderDetails extends AppCompatActivity  {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.body()!=null&&response.code()==200){
+                progressDialog.dismiss();
+                if (response.body() != null && response.code() == 200) {
                     try {
                         JSONObject json = new JSONObject(response.body().toString());
                         String msg = json.getString("message");
                         Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(),TabActivity.class));
+                        finishAffinity();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -103,12 +134,79 @@ public class OrderDetails extends AppCompatActivity  {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
 
     }
 
+    private void dooutletreturn(String billid) {
+        progressDialog.show();
+        JsonObject student1 = new JsonObject();
+        student1.addProperty("bill_id", Integer.parseInt(billid));
+        String mAccesstoken = LocalPreferences.retrieveStringPreferences(getApplicationContext(), "Accesstoken");
+        ApiService apiService = APIClient.getClient().create(ApiService.class);
+        Call<JsonObject> call = apiService.doReturnoutlet(mAccesstoken, "test", student1);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
+                if (response.body() != null && response.code() == 200) {
+                    try {
+                        JSONObject json = new JSONObject(response.body().toString());
+                        String msg = json.getString("message");
+                        Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(),TabActivity.class));
+                        finishAffinity();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                progressDialog.dismiss();
+            }
+        });
+
+    }
+
+    private void doupdateundelivered(String billid, String reason) {
+        progressDialog.show();
+        JsonObject student1 = new JsonObject();
+        student1.addProperty("bill_id", Integer.parseInt(billid));
+        student1.addProperty("reason", reason);
+
+        String mAccesstoken = LocalPreferences.retrieveStringPreferences(getApplicationContext(), "Accesstoken");
+        ApiService apiService = APIClient.getClient().create(ApiService.class);
+        Call<JsonObject> call = apiService.doUnabletodeliver(mAccesstoken, "test", student1);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                progressDialog.dismiss();
+                if (response.body() != null && response.code() == 200) {
+                    try {
+                        JSONObject json = new JSONObject(response.body().toString());
+                        String msg = json.getString("message");
+                        Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(),TabActivity.class));
+                        finishAffinity();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                progressDialog.dismiss();
+            }
+        });
+
+    }
 
     private void doOrderdetails(String orderid) {
         JsonObject student1 = new JsonObject();
@@ -139,8 +237,6 @@ public class OrderDetails extends AppCompatActivity  {
             }
         });
     }
-
-
 
 
 }

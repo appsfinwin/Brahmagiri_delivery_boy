@@ -51,6 +51,7 @@
 
                     </androidx.recyclerview.widget.RecyclerView>
                     <TextView
+                        android:id="@+id/emptytext"
                         android:visibility="gone"
                         android:layout_marginTop="20dp"
                         android:textColor="#000000"

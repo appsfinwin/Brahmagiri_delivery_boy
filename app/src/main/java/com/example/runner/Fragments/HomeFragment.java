@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        doFetchOrdertodeliver();
+
         return view;
 
 
@@ -148,6 +148,10 @@ public class HomeFragment extends Fragment {
                     List<OrderToDeliver>dataset=responseFetchOrder.getOrderToDeliver();
                     binding.recyneworder.setAdapter(new ProductAdapter(getActivity(),dataset));
                     if (dataset.isEmpty()){
+                        binding.emptytext.setVisibility(View.VISIBLE);
+
+                    }else{
+                        binding.emptytext.setVisibility(View.GONE);
                     }
 
 
@@ -207,5 +211,11 @@ public class HomeFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        doFetchOrdertodeliver();
     }
 }

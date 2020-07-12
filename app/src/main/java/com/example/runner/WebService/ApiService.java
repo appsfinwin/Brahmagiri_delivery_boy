@@ -41,6 +41,12 @@ public interface ApiService {
     @POST("move/to_customer")
     Call<JsonObject> doupdateDelivered(@Header("Access-Token") String Access_Token,
                                                    @Header("database") String database, @Body JsonObject locationPost);
+    @POST("undelivered/no_delivery")
+    Call<JsonObject> doUnabletodeliver(@Header("Access-Token") String Access_Token,
+                                       @Header("database") String database, @Body JsonObject locationPost);
+    @POST("return/to_outlet")
+    Call<JsonObject> doReturnoutlet(@Header("Access-Token") String Access_Token,
+                                       @Header("database") String database, @Body JsonObject locationPost);
 
 
 
