@@ -3,15 +3,18 @@
     <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
         <item
+            android:icon="@drawable/ic_order"
             android:id="@+id/navigation_home"
             android:title="New " />
 
         <item
             android:id="@+id/navigation_dashboard"
-            android:title="Allplots" />
+            android:icon="@drawable/ic_complete"
+            android:title="Completed Orders" />
 
 
         <item
+            android:icon="@drawable/ic_user"
             android:id="@+id/navigation_profile"
             android:title="Profile" />
 

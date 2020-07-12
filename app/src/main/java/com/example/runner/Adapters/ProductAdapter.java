@@ -1,6 +1,8 @@
 package com.example.runner.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.runner.Activities.OrderDetails;
 import com.example.runner.R;
+import com.example.runner.Responses.OrderToDeliver;
+
+import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -18,11 +24,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     private Context mCtx;
 
     //we are storing all the products in a list
-   // private List<Product> productList;
+    private List<OrderToDeliver> OrderToDeliverList;
 
     //getting the context and product list with constructor
-    public ProductAdapter(Context mCtx) {
+    public ProductAdapter(Context mCtx, List<OrderToDeliver> OrderToDeliverList) {
         this.mCtx = mCtx;
+        this.OrderToDeliverList = OrderToDeliverList;
     }
 
 
@@ -30,45 +37,54 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.layout_products, null,false);
+        View view = inflater.inflate(R.layout.layout_products, parent, false);
         return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         //getting the product of the specified position
-      //  Product product = productList.get(position);
+        OrderToDeliver product = OrderToDeliverList.get(position);
 
         //binding the data with the viewholder views
-      //  holder.textViewTitle.setText(product.getTitle());
-   //     holder.textViewShortDesc.setText(product.getShortdesc());
-     //   holder.textViewRating.setText(String.valueOf(product.getRating()));
-    //    holder.textViewPrice.setText(String.valueOf(product.getPrice()));
+        holder.textViewTitle.setText("Invoice No: " + product.getInvoiceId());
+        holder.textViewAmount.setText("Amount :₹ " + product.getTotalAmount());
+        holder.textViewConsumername.setText("Customer Name :"+product.getConsumerName());
+        //   holder.textViewRating.setText(String.valueOf(product.getRating()));
+        //    holder.textViewPrice.setText(String.valueOf(product.getPrice()));
 
-     //   holder.imageView.setImageDrawable(mCtx.getResources().getDrawable(product.getImage()));
+        //   holder.imageView.setImageDrawable(mCtx.getResources().getDrawable(product.getImage()));
 
     }
 
 
     @Override
     public int getItemCount() {
-        return 5;
+        return OrderToDeliverList.size();
     }
 
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewTitle, textViewShortDesc, textViewRating, textViewPrice;
+        TextView textViewTitle, textViewAmount, textViewConsumername, textViewPrice;
         ImageView imageView;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
 
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
-            textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
-            textViewRating = itemView.findViewById(R.id.textViewRating);
-            textViewPrice = itemView.findViewById(R.id.textViewPrice);
+            textViewAmount = itemView.findViewById(R.id.tvamount);
+            textViewConsumername = itemView.findViewById(R.id.consumername);
             imageView = itemView.findViewById(R.id.imageView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos=getAdapterPosition();
+                    String id=OrderToDeliverList.get(pos).getInvoiceId().toString();
+                    String billid=OrderToDeliverList.get(pos).getBillId().toString();
+                    mCtx.startActivity(new Intent(mCtx, OrderDetails.class).putExtra("id",id).putExtra("billid",billid));
+                }
+            });
         }
     }
 }

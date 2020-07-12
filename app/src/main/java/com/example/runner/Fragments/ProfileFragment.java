@@ -1,13 +1,18 @@
 package com.example.runner.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.example.runner.Activities.LoginActivity;
 import com.example.runner.R;
+import com.example.runner.Utilities.LocalPreferences;
+import com.example.runner.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
 
@@ -50,11 +55,21 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+FragmentProfileBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_profile, container, false);
+        binding.btnlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LocalPreferences.clearPreferences(getActivity());
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finishAffinity();
+            }
+        });
+        return binding.getRoot();
     }
 }

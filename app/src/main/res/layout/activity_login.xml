@@ -11,6 +11,14 @@
         android:orientation="vertical"
         tools:context=".Authentication.LoginActivity">
 
+        <ImageView
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/ic_delivery_boy"
+
+            android:layout_width="100dp"
+            android:layout_height="100dp">
+
+        </ImageView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textinputusername"
@@ -55,7 +63,7 @@
         <Button
             android:background="@drawable/button_bg"
             android:textColor="#FFF"
-android:onClick="tologin"
+            android:onClick="tologin"
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

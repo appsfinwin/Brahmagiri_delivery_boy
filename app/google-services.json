@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "348244182951",
+    "firebase_url": "https://runner-8452e.firebaseio.com",
+    "project_id": "runner-8452e",
+    "storage_bucket": "runner-8452e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348244182951:android:4076261305179deadb9882",
+        "android_client_info": {
+          "package_name": "com.example.runner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348244182951-qef35bthvkr4eiik76cd9iju298bj32s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAWXPMxBSYBOdNQD7MUCtbRKh-2YSatWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348244182951-qef35bthvkr4eiik76cd9iju298bj32s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

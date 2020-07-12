@@ -2,18 +2,73 @@
 <layout>
 
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragments.HomeFragment">
-   <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/recyneworder"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Fragments.HomeFragment">
 
-   </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                   <TextView
+                       android:layout_marginLeft="16dp"
+                       android:textStyle="bold"
+                       android:textColor="#2d2d2d"
+                       android:layout_marginTop="20dp"
+                       android:text="Delivery boy Online / Offline"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content">
+
+                   </TextView>
+                   <Switch
+                       android:id="@+id/switch1"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:switchMinWidth="56dp"
+                       android:layout_marginLeft="100dp"
+                       android:layout_marginTop="20dp"
+                       android:checked="false"
+                       android:textOff="OFFLINE"
+                       android:textOn="ONLINE"/>
+
+                   <androidx.recyclerview.widget.RecyclerView
+                       android:layout_marginTop="20dp"
+                        android:nestedScrollingEnabled="false"
+                        android:id="@+id/recyneworder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_marginTop="20dp"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_gravity="center"
+                        android:text="Stay Online for New Orders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
 
 
-</FrameLayout>
+        </LinearLayout>
+
+
+    </FrameLayout>
 </layout>
