@@ -317,7 +317,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
@@ -350,6 +350,16 @@
 
                     </RelativeLayout>
 
+                    <Button
+                        android:id="@+id/btn_cashcollect"
+                        android:visibility="invisible"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
+                        android:text="Cash Collected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </Button>
 
                     <TextView
                         android:textColor="#2d2d2d"

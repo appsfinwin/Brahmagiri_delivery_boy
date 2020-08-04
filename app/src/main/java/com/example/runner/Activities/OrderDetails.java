@@ -50,7 +50,7 @@ public class OrderDetails extends AppCompatActivity {
         String orderid = getIntent().getStringExtra("id");
         billid = getIntent().getStringExtra("billid");
         doOrderdetails(orderid);
-        progressDialog=new ProgressDialog(OrderDetails.this);
+        progressDialog = new ProgressDialog(OrderDetails.this);
         progressDialog.setMessage("Updating...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(true);
@@ -100,11 +100,52 @@ public class OrderDetails extends AppCompatActivity {
             }
         });
 
+        binding.btnCashcollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doMarkcashollected();
+            }
+        });
 
         Log.e("onCreate", "onCreate:" + orderid);
         Log.e("onCreate", "onCreate:" + getIntent().getExtras());
 
 
+    }
+
+    private void doMarkcashollected() {
+        {
+            progressDialog.show();
+            JsonObject student1 = new JsonObject();
+            student1.addProperty("bill_id", Integer.parseInt(billid));
+            String mAccesstoken = LocalPreferences.retrieveStringPreferences(getApplicationContext(), "Accesstoken");
+            ApiService apiService = APIClient.getClient().create(ApiService.class);
+            Call<JsonObject> call = apiService.doMarkCashcollected(mAccesstoken, "test", student1);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    progressDialog.dismiss();
+                    if (response.body() != null && response.code() == 200) {
+                      /*  try {
+                            JSONObject json = new JSONObject(response.body().toString());
+                            String msg = json.getString("message");
+                            Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(),TabActivity.class));
+                            finishAffinity();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }*/
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    progressDialog.dismiss();
+                }
+            });
+
+        }
     }
 
     private void domovetocustomer(String billid) {
@@ -123,7 +164,7 @@ public class OrderDetails extends AppCompatActivity {
                         JSONObject json = new JSONObject(response.body().toString());
                         String msg = json.getString("message");
                         Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),TabActivity.class));
+                        startActivity(new Intent(getApplicationContext(), TabActivity.class));
                         finishAffinity();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -156,7 +197,7 @@ public class OrderDetails extends AppCompatActivity {
                         JSONObject json = new JSONObject(response.body().toString());
                         String msg = json.getString("message");
                         Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),TabActivity.class));
+                        startActivity(new Intent(getApplicationContext(), TabActivity.class));
                         finishAffinity();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -191,7 +232,7 @@ public class OrderDetails extends AppCompatActivity {
                         JSONObject json = new JSONObject(response.body().toString());
                         String msg = json.getString("message");
                         Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),TabActivity.class));
+                        startActivity(new Intent(getApplicationContext(), TabActivity.class));
                         finishAffinity();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -226,6 +267,14 @@ public class OrderDetails extends AppCompatActivity {
                     binding.totalAmt.setText("₹ " + response.body().getTotalAmount());
                     binding.tvTaxamt.setText("₹ " + response.body().getTaxAmount());
                     binding.invoiceId.setText("Invoice Id : " + response.body().getInvoiceNumber());
+                    String paymode = response.body().getPayment_mode();
+                    if (paymode.equalsIgnoreCase("cod")) {
+                        binding.btnCashcollect.setVisibility(View.VISIBLE);
+
+                    } else {
+                        binding.btnCashcollect.setVisibility(View.INVISIBLE);
+
+                    }
                     binding.recyvmyorderdetails.setAdapter(new OrderdetailAdapter(getApplicationContext(), dataset));
                 }
 

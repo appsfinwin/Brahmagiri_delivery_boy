@@ -27,6 +27,10 @@ public class ResponseOrderDetails {
     @SerializedName("subtotal")
     @Expose
     private Double subtotal;
+    @SerializedName("payment_mode")
+    @Expose
+    private String  payment_mode;
+
 
     public String getStatus() {
         return status;
@@ -82,5 +86,13 @@ public class ResponseOrderDetails {
 
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
+    }
+
+    public String getPayment_mode() {
+        return payment_mode;
+    }
+
+    public void setPayment_mode(String payment_mode) {
+        this.payment_mode = payment_mode;
     }
 }

@@ -19,6 +19,9 @@ public class ResponseLogin {
     @SerializedName("zone")
     @Expose
     private Integer zone;
+    @SerializedName("message")
+    @Expose
+    private String message;
 
     public String getAccessToken() {
         return accessToken;
@@ -58,5 +61,13 @@ public class ResponseLogin {
 
     public void setZone(Integer zone) {
         this.zone = zone;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

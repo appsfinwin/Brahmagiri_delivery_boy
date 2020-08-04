@@ -10,7 +10,7 @@
         <item
             android:id="@+id/navigation_dashboard"
             android:icon="@drawable/ic_complete"
-            android:title="Completed Orders" />
+            android:title="Delivery boy ledger" />
 
 
         <item

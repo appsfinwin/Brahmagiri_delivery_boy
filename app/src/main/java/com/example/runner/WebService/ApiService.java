@@ -2,10 +2,10 @@
 package com.example.runner.WebService;
 
 
-
 import com.example.runner.Activities.ResponseToken;
 import com.example.runner.ResponseLogin;
 import com.example.runner.Responses.ResponseFetchOrder;
+import com.example.runner.Responses.ResponseLedger;
 import com.example.runner.Responses.ResponseOrderDetails;
 import com.google.gson.JsonObject;
 
@@ -23,14 +23,16 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("authtoken/get_token")
-    Call<ResponseLogin>dologinoutlet(@Field("db")String db, @Field("login")String login, @Field("password")String password);
+    Call<ResponseLogin> dologinoutlet(@Field("db") String db, @Field("login") String login, @Field("password") String password,@Field("app_type") String app_type);
 
     @POST("active/delivery_boy")
-    Call<JsonObject>doofflineonline(@Header("Access-Token") String Access_Token,
-                                    @Header("database") String database, @Body JsonObject locationPost);
+    Call<JsonObject> doofflineonline(@Header("Access-Token") String Access_Token,
+                                     @Header("database") String database, @Body JsonObject locationPost);
+
     @POST("firebase/token_save")
     Call<ResponseToken> dupushToken(@Header("Access-Token") String Access_Token,
                                     @Header("database") String database, @Body JsonObject locationPost);
+
     @POST("assigned/orders")
     Call<ResponseFetchOrder> doFetchOrdertodeliver(@Header("Access-Token") String Access_Token,
                                                    @Header("database") String database, @Body JsonObject locationPost);
@@ -38,21 +40,24 @@ public interface ApiService {
     @POST("invoice/get_details")
     Call<ResponseOrderDetails> dofetchorderdetails(@Header("Access-Token") String Access_Token,
                                                    @Header("database") String database, @Body JsonObject locationPost);
+
     @POST("move/to_customer")
     Call<JsonObject> doupdateDelivered(@Header("Access-Token") String Access_Token,
-                                                   @Header("database") String database, @Body JsonObject locationPost);
+                                       @Header("database") String database, @Body JsonObject locationPost);
+
     @POST("undelivered/no_delivery")
     Call<JsonObject> doUnabletodeliver(@Header("Access-Token") String Access_Token,
                                        @Header("database") String database, @Body JsonObject locationPost);
+
     @POST("return/to_outlet")
     Call<JsonObject> doReturnoutlet(@Header("Access-Token") String Access_Token,
+                                    @Header("database") String database, @Body JsonObject locationPost);
+    @POST("cash_outlet/outlet_receive")
+    Call<JsonObject> doMarkCashcollected(@Header("Access-Token") String Access_Token,
+                                    @Header("database") String database, @Body JsonObject locationPost);
+
+    @POST("outlet_ledger/ledger")
+    Call<ResponseLedger> doFetchLedger(@Header("Access-Token") String Access_Token,
                                        @Header("database") String database, @Body JsonObject locationPost);
-
-
-
-
-
-
-
 }
 

@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void doLogin(String username, String password) {
         ApiService apiService= APIClient.getClient().create(ApiService.class);
-        Call<ResponseLogin> call=apiService.dologinoutlet("test",username,password);
+        Call<ResponseLogin> call=apiService.dologinoutlet("test",username,password,"delivery_boy");
         call.enqueue(new Callback<ResponseLogin>() {
             @Override
             public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
@@ -63,9 +63,11 @@ public class LoginActivity extends AppCompatActivity {
                         LocalPreferences.storeStringPreference(getApplicationContext(),"partnerid",response.body().getPartnerId().toString());
                         startActivity(new Intent(getApplicationContext(), TabActivity.class));
 
+                    }else{
+                        Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Something Went Wrong", Toast.LENGTH_SHORT).show();
                 }
 
             }

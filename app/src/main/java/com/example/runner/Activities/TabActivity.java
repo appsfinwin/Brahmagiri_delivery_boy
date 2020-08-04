@@ -86,7 +86,7 @@ public class TabActivity extends AppCompatActivity implements BottomNavigationVi
                 fragment = new HomeFragment();
                 break;
 
-            case R.id.navigation_dashboard:
+           case R.id.navigation_dashboard:
                 fragment = new CompletedFragment();
                 break;
 
