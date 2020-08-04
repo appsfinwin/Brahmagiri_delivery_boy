@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseLogin> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Login Failed"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Login Faileds"+t.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }
