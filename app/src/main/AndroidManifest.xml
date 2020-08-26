@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.runner">
+    package="com.finwintechnologies.runner">
 
     <application
         android:allowBackup="true"
@@ -10,27 +10,28 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.SplashActivity">
+        <activity android:name="com.finwintechnologies.runner.Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.TabActivity" />
-        <activity android:name=".Activities.LoginActivity">
+        <activity android:name="com.finwintechnologies.runner.Activities.TabActivity" />
+        <activity android:name="com.finwintechnologies.runner.Activities.LoginActivity">
 
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".Activities.OrderDetails"></activity>
+        <activity android:name="com.finwintechnologies.runner.MainActivity"></activity>
+        <activity android:name="com.finwintechnologies.runner.Activities.OrderDetails"></activity>
 
         <service
-            android:name=".services.MyFirebaseMessagingService"
+            android:name="com.finwintechnologies.runner.services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <activity android:name=".Activities.DemoSplash"></activity>
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
 

@@ -8,7 +8,7 @@
     tools:context=".Activities.SplashActivity">
     <ImageView
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_delivery_boy"
+        android:src="@drawable/trackerlogo"
         android:layout_margin="30dp"
         android:layout_width="300dp"
         android:layout_height="300dp">
