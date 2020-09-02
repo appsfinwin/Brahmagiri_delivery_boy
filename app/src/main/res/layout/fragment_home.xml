@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,16 +31,15 @@
                        android:layout_height="wrap_content">
 
                    </TextView>
-                   <Switch
-                       android:id="@+id/switch1"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:switchMinWidth="56dp"
-                       android:layout_marginLeft="100dp"
-                       android:layout_marginTop="20dp"
-                       android:checked="false"
-                       android:textOff="OFFLINE"
-                       android:textOn="ONLINE"/>
+            <com.github.angads25.toggle.widget.LabeledSwitch
+                        android:id="@+id/switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:textSize="14sp"
+
+                        app:on="false"
+                        app:colorBorder="@color/colorAccent"/>
 
                    <androidx.recyclerview.widget.RecyclerView
                        android:layout_marginTop="20dp"

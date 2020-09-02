@@ -7,8 +7,28 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/btnlogout"
             android:layout_centerInParent="true"
+            android:layout_marginTop="15dp"
+            android:padding="10dp"
+
+            android:layout_marginLeft="15dp"
+            android:id="@+id/chngpwd"
+            android:background="@color/colorAccent"
+            android:text="Change password"
+            android:textColor="#FFF"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+        <Button
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+
+            android:layout_below="@id/chngpwd"
+            android:id="@+id/btnlogout"
             android:textColor="#FFF"
             android:text="Logout"
             android:background="@color/colorAccent"

@@ -125,25 +125,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
 
-                            android:text="Total before discount"
+                            android:text="Delivery Charge"
                             android:textColor="#2d2d2d">
 
                         </TextView>
 
                         <TextView
+                            android:id="@+id/tvdelchrg"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
 
-                            android:text="2000"
+                            android:text=""
                             android:textColor="#2d2d2d">
 
                         </TextView>
@@ -350,91 +351,194 @@
 
                     </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/btn_cashcollect"
-                        android:visibility="invisible"
-                        android:layout_marginTop="10dp"
-                        android:layout_gravity="center"
-                        android:text="Cash Collected"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                    </Button>
-
                     <TextView
                         android:textColor="#2d2d2d"
-                        android:text="Choose an option"
+                        android:layout_marginTop="8dp"
+                        android:text="Delivery Address "
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="20dp"
                         android:layout_height="wrap_content">
 
                     </TextView>
 
-                    <RadioGroup
-                        android:id="@+id/radiogroup"
-                        android:weightSum="3"
+                    <TextView
+                        android:textColor="#2d2d2d"
+                        android:id="@+id/tv_customer_name"
+                        android:layout_marginTop="8dp"
+                        android:text=""
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+                    <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <RadioButton
-                            android:padding="9dp"
-                            android:id="@+id/rdbtn1"
 
-                            android:layout_weight="1"
-                            android:text="Delivered"
-                            android:layout_width="0dp"
+                    <TextView
+                        android:textColor="#2d2d2d"
+                        android:id="@+id/tv_customer_mobile"
+                        android:layout_marginTop="4dp"
+                        android:text="sssssssssssss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+                        <Button
+                            android:id="@+id/btncall"
+                            android:layout_marginLeft="20dp"
+                            android:text="Call"
+                            android:drawableLeft="@drawable/ic_baseline_call_24"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
-                        </RadioButton>
+                        </Button>
+                    </LinearLayout>
+                    <TextView
+                        android:textColor="#2d2d2d"
+                        android:id="@+id/tv_customer_address"
+                        android:layout_marginTop="4dp"
+                        android:text=""
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                        <RadioButton
-                            android:padding="9dp"
-                            android:id="@+id/rdbtn2"
+                    </TextView>
 
-                            android:layout_weight="1"
-                            android:text="Return"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content">
-
-                        </RadioButton>
-
-                        <RadioButton
-                            android:id="@+id/rdbtn3"
-                            android:padding="9dp"
-                            android:layout_weight="1"
-                            android:text="Returned to Outlet"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content">
-
-                        </RadioButton>
-                    </RadioGroup>
-
-                    <EditText
-                        android:paddingStart="10dp"
-                        android:paddingLeft="10dp"
-                        android:id="@+id/edcomments"
-                        android:visibility="gone"
-
-                        android:background="@drawable/edittextbg"
-                        android:hint="Enter comments "
-                        android:gravity="start"
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/deliverylayt"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp">
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:textColor="#2d2d2d"
+                            android:text="Choose an option"
+                            android:layout_width="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_height="wrap_content">
 
-                    </EditText>
+                        </TextView>
 
-                    <Button
-                        android:layout_marginTop="10dp"
-                        android:text="Update Status"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:id="@+id/btn_updatestatus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        <RadioGroup
+                            android:id="@+id/radiogroup"
+                            android:weightSum="3"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RadioButton
+                                android:padding="9dp"
+                                android:id="@+id/rdbtn1"
+
+                                android:layout_weight="1"
+                                android:text="Delivered"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content">
+
+                            </RadioButton>
+
+                            <RadioButton
+                                android:padding="9dp"
+                                android:id="@+id/rdbtn2"
+
+                                android:layout_weight="1"
+                                android:text="Return"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content">
+
+                            </RadioButton>
+
+                            <RadioButton
+                                android:id="@+id/rdbtn3"
+                                android:padding="9dp"
+                                android:layout_weight="1"
+                                android:text="Returned to Outlet"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content">
+
+                            </RadioButton>
+                        </RadioGroup>
+
+                        <EditText
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:id="@+id/edcomments"
+                            android:visibility="gone"
+
+                            android:background="@drawable/edittextbg"
+                            android:hint="Enter comments "
+                            android:gravity="start"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp">
+
+                        </EditText>
+
+                        <Button
+                            android:layout_marginTop="10dp"
+                            android:text="Update Status"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:id="@+id/btn_updatestatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                  <LinearLayout
+                      android:visibility="gone"
+                      android:id="@+id/cashlayt"
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+                      <TextView
+                          android:layout_marginLeft="15dp"
+                          android:layout_marginTop="10dp"
+                          android:text="COD Cash Collection"
+                          android:layout_width="wrap_content"
+                          android:textColor="#2d2d2d"
+                          android:layout_height="wrap_content">
+
+                      </TextView>
+
+                      <RadioGroup
+                          android:layout_marginTop="5dp"
+                          android:layout_marginLeft="15dp"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content">
+
+                          <RadioButton
+                              android:id="@+id/rd_cash"
+                              android:text="Cash"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content">
+
+                          </RadioButton>
+
+                          <RadioButton
+                              android:id="@+id/rdioupi"
+                              android:layout_marginLeft="20dp"
+                              android:text="UPI"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content">
+
+                          </RadioButton>
+                      </RadioGroup>
+
+                      <Button
+                          android:id="@+id/btn_cashcollect"
+                          android:visibility="visible"
+                          android:layout_marginTop="10dp"
+                          android:layout_gravity="center"
+                          android:text="Cash Collected"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+
+                      </Button>
+
+
+                  </LinearLayout>
+
 
                 </LinearLayout>
             </LinearLayout>
