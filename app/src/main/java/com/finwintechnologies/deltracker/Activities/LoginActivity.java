@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                         LocalPreferences.storeStringPreference(getApplicationContext(),"partnerid",response.body().getPartnerId().toString());
                         LocalPreferences.storeStringPreference(getApplicationContext(),"userid",response.body().getUid().toString());
                         startActivity(new Intent(getApplicationContext(), TabActivity.class));
+                        finish();
+
 
                     }else{
                         Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();

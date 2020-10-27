@@ -6,26 +6,30 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.finwintechnologies.deltracker.Activities.LoginActivity;
+import com.finwintechnologies.deltracker.Adapters.MyOrdersAdapter;
 import com.finwintechnologies.deltracker.Adapters.ProductAdapter;
 import com.finwintechnologies.deltracker.R;
 import com.finwintechnologies.deltracker.Responses.OrderToDeliver;
 import com.finwintechnologies.deltracker.Responses.ResponseFetchOrder;
+import com.finwintechnologies.deltracker.Responses.ResponseDelboyStatus;
 import com.finwintechnologies.deltracker.Utilities.LocalPreferences;
+import com.finwintechnologies.deltracker.Utilities.PaginationScrollListener;
 import com.finwintechnologies.deltracker.WebService.APIClient;
 import com.finwintechnologies.deltracker.WebService.ApiService;
 import com.finwintechnologies.deltracker.databinding.FragmentHomeBinding;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
-import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -56,7 +60,13 @@ public class HomeFragment extends Fragment {
     private String mParam2;
     String deliveryboyStatus;
     ProgressDialog mdialog;
-
+    private MyOrdersAdapter bAdapter;
+    private static final int PAGE_START = 1;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int TOTAL_PAGES;
+    private int currentPage = PAGE_START;
+    LinearLayoutManager linearLayoutManager;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -102,6 +112,10 @@ public class HomeFragment extends Fragment {
         mdialog.setCancelable(false);
         mdialog.setCanceledOnTouchOutside(false);
         View view = binding.getRoot();
+
+        bAdapter = new MyOrdersAdapter(getActivity());
+
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         //here data must be an instance of the class MarsDataProvider
         boolean islogged = LocalPreferences.retrieveBooleanPreferences(getActivity(), "isonline");
         /*if (islogged) {
@@ -111,21 +125,59 @@ public class HomeFragment extends Fragment {
 
         }*/
 
-        binding.recyneworder.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-       binding.switch1.setOnToggledListener(new OnToggledListener() {
-           @Override
-           public void onSwitched(ToggleableView toggleableView, boolean isOn) {
-               if (isOn){
-                   deliveryboyStatus = "True";
-                   doUpdatestatus(deliveryboyStatus);
-               }else{
-                   deliveryboyStatus = "False";
-                   doUpdatestatus(deliveryboyStatus);
-               }
+        binding.recyneworder.setLayoutManager(linearLayoutManager);
 
-           }
-       });
+        binding.recyneworder.setItemAnimator(new DefaultItemAnimator());
+
+        binding.recyneworder.setAdapter(bAdapter);
+        binding.recyneworder.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                currentPage += 1;
+
+                // mocking network delay for API call
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //doFetchNextpage();
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
+
+        doFetchOrdertodeliver();
+
+
+        binding.switch1.setOnToggledListener(new OnToggledListener() {
+            @Override
+            public void onSwitched(ToggleableView toggleableView, boolean isOn) {
+                if (isOn) {
+                    deliveryboyStatus = "True";
+                    doUpdatestatus(deliveryboyStatus);
+                } else {
+                    deliveryboyStatus = "False";
+                    doUpdatestatus(deliveryboyStatus);
+                }
+
+            }
+        });
      /*   binding.switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -154,27 +206,78 @@ public class HomeFragment extends Fragment {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("partner_id", Integer.parseInt(id));
+        jsonObject.addProperty("page", Integer.parseInt("1"));
         ApiService apiService = APIClient.getClient().create(ApiService.class);
         Call<ResponseFetchOrder> call = apiService.doFetchOrdertodeliver(mAccesstoken, database, jsonObject);
         call.enqueue(new Callback<ResponseFetchOrder>() {
             @Override
             public void onResponse(Call<ResponseFetchOrder> call, Response<ResponseFetchOrder> response) {
-                if (response.body()!=null&&response.code()==200){
-                    if (response.body().getMessage().equalsIgnoreCase("token seems to have expired or invalid")){
+                Log.d("onfailure", "success: "+response.body());
+                if (response.body() != null && response.code() == 200) {
 
-                    }
-                    ResponseFetchOrder responseFetchOrder=response.body();
-                    List<OrderToDeliver>dataset=responseFetchOrder.getOrderToDeliver();
-                    binding.recyneworder.setAdapter(new ProductAdapter(getActivity(),dataset));
-                    if (dataset.isEmpty()){
+                    ResponseFetchOrder responseFetchOrder = response.body();
+                    List<OrderToDeliver> dataset = responseFetchOrder.getOrderToDeliver();
+                    TOTAL_PAGES = response.body().getTotalPage();
+                    bAdapter.addAll(dataset);
+                    if (currentPage < TOTAL_PAGES) bAdapter.addLoadingFooter();
+                    else isLastPage = true;
+                    if (bAdapter.getItemCount() == 0) {
                         binding.emptytext.setVisibility(View.VISIBLE);
+
 
                     }else{
                         binding.emptytext.setVisibility(View.GONE);
+
                     }
 
 
-                }else{
+                } else {
+                    LocalPreferences.clearPreferences(getActivity());
+                    Toast.makeText(getActivity(), "Session Expired ...Logged Out", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finishAffinity();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseFetchOrder> call, Throwable t) {
+                Log.d("onfailure", "onFailure: "+t.getLocalizedMessage());
+
+            }
+        });
+    }
+
+    private void doFetchNextpage() {
+        String mAccesstoken = LocalPreferences.retrieveStringPreferences(getActivity(), "Accesstoken");
+        String id = LocalPreferences.retrieveStringPreferences(getActivity(), "partnerid");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("partner_id", Integer.parseInt(id));
+        jsonObject.addProperty("page", currentPage);
+        ApiService apiService = APIClient.getClient().create(ApiService.class);
+        Call<ResponseFetchOrder> call = apiService.doFetchOrdertodeliver(mAccesstoken, database, jsonObject);
+        call.enqueue(new Callback<ResponseFetchOrder>() {
+            @Override
+            public void onResponse(Call<ResponseFetchOrder> call, Response<ResponseFetchOrder> response) {
+                if (response.body() != null && response.code() == 200) {
+
+                    ResponseFetchOrder responseFetchOrder = response.body();
+                    List<OrderToDeliver> dataset = responseFetchOrder.getOrderToDeliver();
+                    bAdapter.removeLoadingFooter();
+                    isLoading = false;
+                    bAdapter.addAll(dataset);
+                    if (currentPage != TOTAL_PAGES) bAdapter.addLoadingFooter();
+                    else isLastPage = true;
+                    if (bAdapter.getItemCount() == 0) {
+                        binding.emptytext.setVisibility(View.VISIBLE);
+
+
+                    }else{
+                        binding.emptytext.setVisibility(View.GONE);
+
+                    }
+
+
+                } else {
                     LocalPreferences.clearPreferences(getActivity());
                     Toast.makeText(getActivity(), "Session Expired ...Logged Out", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -235,6 +338,43 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        doFetchOrdertodeliver();
+
+        Fetchstatus();
     }
+
+
+    public void Fetchstatus() {
+        String outid = LocalPreferences.retrieveStringPreferences(getActivity(), "partnerid");
+
+        String mAccesstoken = LocalPreferences.retrieveStringPreferences(getActivity(), "Accesstoken");
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("partner_id", Integer.parseInt(outid));
+        jsonObject.addProperty("active", "");
+        ApiService apiService = APIClient.getClient().create(ApiService.class);
+        Call<ResponseDelboyStatus> call = apiService.Updateshopstatus(mAccesstoken, database, jsonObject);
+        call.enqueue(new Callback<ResponseDelboyStatus>() {
+            @Override
+            public void onResponse(Call<ResponseDelboyStatus> call, Response<ResponseDelboyStatus> response) {
+                if (response.body() != null && response.code() == 200) {
+                    Boolean status = response.body().getCurrentStatus();
+                    if (status) {
+                        binding.switch1.setOn(true);
+
+                    } else {
+                        binding.switch1.setOn(false);
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDelboyStatus> call, Throwable t) {
+
+
+            }
+        });
+    }
+
 }

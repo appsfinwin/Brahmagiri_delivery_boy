@@ -5,11 +5,18 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.media.AudioAttributes;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.finwintechnologies.deltracker.BuildConfig;
 import com.finwintechnologies.deltracker.Fragments.CompletedFragment;
 import com.finwintechnologies.deltracker.Fragments.HomeFragment;
 import com.finwintechnologies.deltracker.Fragments.ProfileFragment;
@@ -39,7 +46,8 @@ public class TabActivity extends AppCompatActivity implements BottomNavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
         //loading the default fragment
-        loadFragment(new HomeFragment());
+
+
 
         //getting bottom navigation view and attaching the listener
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -92,7 +100,7 @@ public class TabActivity extends AppCompatActivity implements BottomNavigationVi
                 fragment = new HomeFragment();
                 break;
 
-           case R.id.navigation_dashboard:
+           case R.id.navigation_ledger:
                 fragment = new CompletedFragment();
                 break;
 
@@ -146,4 +154,9 @@ public class TabActivity extends AppCompatActivity implements BottomNavigationVi
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadFragment(new HomeFragment());
+    }
 }

@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,9 +46,9 @@ import static com.finwintechnologies.deltracker.Utilities.Constants.database;
 public class OrderDetails extends AppCompatActivity {
     ActivityOrderDetailsBinding binding;
     ProgressDialog progressDialog;
-
+Double latitude=0.0,longitude=0.0;
     String selectedid, billid;
-    String consumerName,Consumermob,consumerAdderss;
+    String consumerName,Consumermob,consumerAdderss,status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,15 @@ public class OrderDetails extends AppCompatActivity {
         binding.tvCustomerName.setText(consumerName);
         binding.tvCustomerMobile.setText(Consumermob);
         binding.tvCustomerAddress.setText(consumerAdderss);
+        status=getIntent().getStringExtra("status");
+        if (status!=null&&status.equalsIgnoreCase("undelivered")){
+            binding.rdbtn3.setVisibility(View.GONE);
+
+        }else if(status!=null&&status.equalsIgnoreCase("delivered")){
+            binding.rdbtn1.setVisibility(View.GONE);
+            binding.rdbtn2.setVisibility(View.GONE);
+            binding.rdbtn3.setVisibility(View.GONE);
+        }
         binding.btncall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +81,19 @@ public class OrderDetails extends AppCompatActivity {
 
 
 
+binding.startlocation.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        if (latitude!=0.0&&longitude!=0.0){
+            Uri uri = Uri.parse("google.navigation:q="+latitude+","+longitude + "&mode=d");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.google.android.apps.maps");
 
+            startActivity(intent);
+        }
+
+    }
+});
 
 
 
@@ -121,7 +143,7 @@ public class OrderDetails extends AppCompatActivity {
 
                 }
                 if (binding.rdbtn3.isChecked()) {
-                    dooutletreturn(billid);
+                    //dooutletreturn(billid);
 
                 }
             }
@@ -202,7 +224,7 @@ public class OrderDetails extends AppCompatActivity {
                             String msg = json.getString("message");
                             Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
                             if (status.equalsIgnoreCase("cash_received_by_boy")){
-                                startActivity(new Intent(getApplicationContext(),TabActivity.class));
+                                startActivity(new Intent(getApplicationContext(), TabActivity.class));
                                 finishAffinity();
                             }else{
                                 Toast.makeText(getApplicationContext(), " Something Went Wrong", Toast.LENGTH_SHORT).show();
@@ -343,11 +365,19 @@ public class OrderDetails extends AppCompatActivity {
                 if (response.body() != null && response.code() == 200) {
                     ResponseOrderDetails responseOrderDetails = response.body();
                     List<LineItem> dataset = responseOrderDetails.getLineItems();
+                    if(response.body().getBill_status().equalsIgnoreCase("shipped")){
+                        binding.deliverylayt.setVisibility(View.VISIBLE);
+                    }else{
+
+                        binding.deliverylayt.setVisibility(View.GONE);
+                    }
                     binding.tvdelchrg.setText("₹ "+response.body().getDelivery_charges());
                     binding.tvSubtotal.setText("₹ " + response.body().getSubtotal());
                     binding.totalAmt.setText("₹ " + response.body().getTotalAmount());
                     binding.tvTaxamt.setText("₹ " + response.body().getTaxAmount());
                     binding.invoiceId.setText("Invoice Id : " + response.body().getInvoiceNumber());
+                    latitude= Double.valueOf(responseOrderDetails.getConsumer_latiitude());
+                    longitude= Double.valueOf(responseOrderDetails.getConsumer_longitude());
                     String paymode = response.body().getPayment_mode();
                     if (paymode.equalsIgnoreCase("cod")) {
                         binding.btnCashcollect.setVisibility(View.VISIBLE);

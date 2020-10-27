@@ -51,6 +51,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.textViewConsumername.setText("Customer Name :"+product.getConsumerName());
         holder.textViewStatus.setText("Status :"+product.getStatus());
         holder.textViewOutname.setText("Outlet Name :"+product.getOutlet());
+        holder.textviewdate.setText("Date : "+product.getInvoiceDate());
         //   holder.textViewRating.setText(String.valueOf(product.getRating()));
         //    holder.textViewPrice.setText(String.valueOf(product.getPrice()));
 
@@ -67,7 +68,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewTitle, textViewAmount, textViewConsumername, textViewStatus,textViewOutname;
+        TextView textViewTitle, textViewAmount, textViewConsumername, textViewStatus,textViewOutname,textviewdate;
         ImageView imageView;
 
         public ProductViewHolder(View itemView) {
@@ -78,6 +79,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textViewConsumername = itemView.findViewById(R.id.consumername);
             textViewStatus = itemView.findViewById(R.id.status);
             textViewOutname = itemView.findViewById(R.id.textViewOutname);
+            textviewdate = itemView.findViewById(R.id.date);
 
 
             imageView = itemView.findViewById(R.id.imageView);
@@ -95,12 +97,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             " , \n "+OrderToDeliverList.get(pos).getConsumerStreet()+" , \n"+OrderToDeliverList.get(pos).getConsumerLandmark();
 
 
-                    if (status.equalsIgnoreCase("shipped")||status.equalsIgnoreCase("assigned")) {
+                    if (status.equalsIgnoreCase("shipped")||status.equalsIgnoreCase("assigned")||status.equalsIgnoreCase("undelivered")) {
                         mCtx.startActivity(new Intent(mCtx, OrderDetails.class)
                                 .putExtra("id",id)
                                 .putExtra("consumerName",consumerName)
                                 .putExtra("Consumermob",Consumermob)
                                 .putExtra("consumerAdderss",consumerAdderss)
+                                .putExtra("status",status)
 
                                 .putExtra("billid",billid));
                     }

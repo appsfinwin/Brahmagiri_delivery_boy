@@ -37,27 +37,30 @@ public class OrderToDeliver {
     @SerializedName("consumer_id")
     @Expose
     private Integer consumerId;
-    @SerializedName("consumer_mobile")
-    @Expose
-    private String consumerMobile;
     @SerializedName("payment_mode")
     @Expose
     private String paymentMode;
+    @SerializedName("consumer_delivery_loc")
+    @Expose
+    private String consumerDeliveryLoc;
+    @SerializedName("outlet")
+    @Expose
+    private String outlet;
+    @SerializedName("consumer_mobile")
+    @Expose
+    private String consumerMobile;
+    @SerializedName("order_status")
+    @Expose
+    private String orderStatus;
+    @SerializedName("consumer_delivery_landmark")
+    @Expose
+    private String consumerDeliveryLandmark;
     @SerializedName("consumer_street")
     @Expose
     private String consumerStreet;
     @SerializedName("consumer_name")
     @Expose
     private String consumerName;
-
-    @SerializedName("outlet")
-    @Expose
-    private String outlet;
-
-
-
-
-
     @SerializedName("bill_id")
     @Expose
     private Integer billId;
@@ -153,6 +156,30 @@ public class OrderToDeliver {
         this.consumerId = consumerId;
     }
 
+    public String getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
+    }
+
+    public String getConsumerDeliveryLoc() {
+        return consumerDeliveryLoc;
+    }
+
+    public void setConsumerDeliveryLoc(String consumerDeliveryLoc) {
+        this.consumerDeliveryLoc = consumerDeliveryLoc;
+    }
+
+    public String getOutlet() {
+        return outlet;
+    }
+
+    public void setOutlet(String outlet) {
+        this.outlet = outlet;
+    }
+
     public String getConsumerMobile() {
         return consumerMobile;
     }
@@ -161,12 +188,20 @@ public class OrderToDeliver {
         this.consumerMobile = consumerMobile;
     }
 
-    public String getPaymentMode() {
-        return paymentMode;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setPaymentMode(String paymentMode) {
-        this.paymentMode = paymentMode;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public String getConsumerDeliveryLandmark() {
+        return consumerDeliveryLandmark;
+    }
+
+    public void setConsumerDeliveryLandmark(String consumerDeliveryLandmark) {
+        this.consumerDeliveryLandmark = consumerDeliveryLandmark;
     }
 
     public String getConsumerStreet() {
@@ -201,11 +236,5 @@ public class OrderToDeliver {
         this.totalAmount = totalAmount;
     }
 
-    public String getOutlet() {
-        return outlet;
-    }
-
-    public void setOutlet(String outlet) {
-        this.outlet = outlet;
-    }
 }
+

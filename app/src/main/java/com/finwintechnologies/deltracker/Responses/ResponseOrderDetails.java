@@ -9,6 +9,11 @@ public class ResponseOrderDetails {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("bill_status")
+    @Expose
+    private String bill_status;
+
+
     @SerializedName("line_items")
     @Expose
     private List<LineItem> lineItems = null;
@@ -34,7 +39,13 @@ public class ResponseOrderDetails {
     @SerializedName("delivery_charges")
     @Expose
     private Double  delivery_charges;
+    @SerializedName("consumer_latiitude")
+    @Expose
+    private String  consumer_latiitude;
 
+    @SerializedName("consumer_longitude")
+    @Expose
+    private String  consumer_longitude;
 
 
 
@@ -109,5 +120,30 @@ public class ResponseOrderDetails {
 
     public void setDelivery_charges(Double delivery_charges) {
         this.delivery_charges = delivery_charges;
+    }
+
+    public String getBill_status() {
+        return bill_status;
+    }
+
+    public void setBill_status(String bill_status) {
+        this.bill_status = bill_status;
+    }
+
+
+    public String getConsumer_latiitude() {
+        return consumer_latiitude;
+    }
+
+    public void setConsumer_latiitude(String consumer_latiitude) {
+        this.consumer_latiitude = consumer_latiitude;
+    }
+
+    public String getConsumer_longitude() {
+        return consumer_longitude;
+    }
+
+    public void setConsumer_longitude(String consumer_longitude) {
+        this.consumer_longitude = consumer_longitude;
     }
 }

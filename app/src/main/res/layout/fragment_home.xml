@@ -38,7 +38,7 @@
                         android:layout_margin="16dp"
                         android:textSize="14sp"
 
-                        app:on="false"
+
                         app:colorBorder="@color/colorAccent"/>
 
                    <androidx.recyclerview.widget.RecyclerView

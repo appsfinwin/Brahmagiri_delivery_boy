@@ -404,6 +404,14 @@
 
                     </TextView>
 
+                    <Button
+                        android:id="@+id/startlocation"
+                        android:text="Direction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </Button>
+
                     <LinearLayout
                         android:orientation="vertical"
                         android:id="@+id/deliverylayt"
@@ -451,6 +459,7 @@
                             </RadioButton>
 
                             <RadioButton
+                                android:visibility="gone"
                                 android:id="@+id/rdbtn3"
                                 android:padding="9dp"
                                 android:layout_weight="1"

@@ -5,12 +5,12 @@
         <item
             android:icon="@drawable/ic_order"
             android:id="@+id/navigation_home"
-            android:title="New " />
+            android:title="New Orders " />
 
         <item
-            android:id="@+id/navigation_dashboard"
+            android:id="@+id/navigation_ledger"
             android:icon="@drawable/ic_complete"
-            android:title="Delivery boy ledger" />
+            android:title="Outlet Payable" />
 
 
         <item

@@ -7,6 +7,7 @@ import com.finwintechnologies.deltracker.ResponseLogin;
 import com.finwintechnologies.deltracker.Responses.ResponseFetchOrder;
 import com.finwintechnologies.deltracker.Responses.ResponseLedger;
 import com.finwintechnologies.deltracker.Responses.ResponseOrderDetails;
+import com.finwintechnologies.deltracker.Responses.ResponseDelboyStatus;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -14,6 +15,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -30,7 +32,7 @@ public interface ApiService {
     Call<ResponseToken> dupushToken(@Header("Access-Token") String Access_Token,
                                     @Header("database") String database, @Body JsonObject locationPost);
 
-    @POST("assigned/orders")
+    @POST("assigned_new/orders_new")
     Call<ResponseFetchOrder> doFetchOrdertodeliver(@Header("Access-Token") String Access_Token,
                                                    @Header("database") String database, @Body JsonObject locationPost);
 
@@ -64,5 +66,13 @@ public interface ApiService {
     @POST("change/password")
     Call<JsonObject> doChangepwd(@Header("database") String database,
                                  @Body JsonObject cartbody);
+
+
+    @Headers({"Content-type: application/json",
+            "Accept: */*"})
+    @POST("active/delivery_boy")
+    Call<ResponseDelboyStatus> Updateshopstatus(@Header("Access-Token") String Access_Token,
+                                                @Header("database") String database, @Body JsonObject locationPost);
+
 }
 
