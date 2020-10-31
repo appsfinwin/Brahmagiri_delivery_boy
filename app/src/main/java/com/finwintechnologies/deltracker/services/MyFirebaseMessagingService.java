@@ -17,8 +17,8 @@ import androidx.core.app.NotificationCompat;
 
 
 import com.finwintechnologies.deltracker.Activities.TabActivity;
-import com.finwintechnologies.deltracker.BuildConfig;
 import com.finwintechnologies.deltracker.R;
+import com.google.firebase.BuildConfig;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
