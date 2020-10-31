@@ -43,7 +43,7 @@ public class ChangePassword extends AppCompatActivity {
                 }else if (edcpass.equals("")){
 
                 }else if(!pass.equals(edcpass)){
-
+                    Toast.makeText(ChangePassword.this, "", Toast.LENGTH_SHORT).show();
                 }else{
                     doChangePass(pass,edcpass);
                 }
