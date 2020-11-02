@@ -21,6 +21,8 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:id="@+id/recyvmyorderdetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,6 +51,7 @@
 
                     <TextView
                         android:id="@+id/invoice_id"
+                        android:layout_marginTop="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Price Details"
@@ -273,10 +276,10 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="22dp"
+
                         android:layout_marginTop="25dp"
 
-                        android:layout_marginRight="22dp"
+
                         android:background="#2d2d2d">
 
                     </View>
@@ -307,6 +310,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_weight="1"
+                            android:layout_marginRight="8dp"
                             android:gravity="end"
                             android:minWidth="80dp"
 
@@ -398,6 +402,9 @@
                         android:textColor="#2d2d2d"
                         android:id="@+id/tv_customer_address"
                         android:layout_marginTop="4dp"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingBottom="6dp"
                         android:text=""
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
